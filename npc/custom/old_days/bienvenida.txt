@@ -1,0 +1,40 @@
+new_1-1,60,118,4	script	Starter Pack	871,{
+if(#packB==1){
+// dispbottom strcharinfo(0)+", ya recibiste tu pack de bienvenida.";
+end;
+}
+mes "^870F9A[Welcome]^000000";
+mes "Hi, "+strcharinfo(0)+", welcome to Old Days Server.";
+// mes "Aquí tienes tu paquete.";
+mes "Enjoy!.";
+set #packB,1;
+// getitembound 33003,500,Bound_Account;
+// getitembound 33004,300,Bound_Account;
+// getitem 14532,2; //libro exp
+// getitem 12565,1;//montura 7 dias no tradeable.
+// rentitem 12622,259200; //monturas 3 dias
+sc_start SC_FOOD_STR_CASH,( 3600 * 1000 ), 10;
+sc_start SC_FOOD_AGI_CASH,( 3600 * 1000 ), 10;
+sc_start SC_FOOD_DEX_CASH,( 3600 * 1000 ), 10;
+sc_start SC_FOOD_VIT_CASH,( 3600 * 1000 ), 10;
+sc_start SC_FOOD_INT_CASH,( 3600 * 1000 ), 10;
+sc_start SC_FOOD_LUK_CASH,( 3600 * 1000 ), 10;
+	// if( checkpremium(getcharid(0)) == 1 ) {
+	// set #Premium_Tick, #Premium_Tick + 43200;} // Time Extension }
+	// else {
+		// set #Premium_Tick, gettimetick(2) + 43200;} // New Premium Account
+// dispbottom "ACABAS DE RECIBIR 12 HORAS CUENTA VIP, PARA HACERLO VÁLIDO RELOGEA.",0xFF7070;
+// message strcharinfo(0), "ACABAS DE RECIBIR 12 HORAS CUENTA VIP, PARA HACERLO VÁLIDO RELOGEA.";
+close;
+end;
+                
+               
+OnInit:
+	initnpctimer;
+	end;
+
+OnTimer1000:
+	showscript("Free Starter Pack");
+	setnpctimer 0;
+	end;
+}

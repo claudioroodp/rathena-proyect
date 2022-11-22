@@ -1,0 +1,90 @@
+-	script	LevelUpQuotes	-1,{
+OnPCBaseLvUpEvent:
+	sleep2 100;
+	if( BaseLevel >= 1 ) {
+		announce "You just leveled up, congratulations!.",bc_self;
+		// dispbottom "Efecto: Attention Concentrate nivel 10.";
+		// itemskill "AC_CONCENTRATION",1;
+		// sc_end SC_SPEEDUP1;
+		// sc_end SC_INCSTR;
+		// sc_end SC_INCAGI;
+		// sc_end SC_INCVIT;
+		// sc_end SC_INCINT;
+		// sc_end SC_INCDEX;
+		// sc_end SC_INCLUK;
+		specialeffect2 EF_INCAGILITY;
+		sc_start SC_INCREASEAGI,300000,10;
+		specialeffect2 EF_BLESSING;
+		sc_start SC_BLESSING,300000,10;
+		// dispbottom "+5 AllStats por 3 minutos."; 
+		// dispbottom "Efecto: Speed Potion al 20% por 60 segundos (no acumulable con Agility UP.)";
+		// sc_start SC_SPEEDUP1,60000,20;
+		// sc_start SC_INCSTR,180000,5;
+		// sc_start SC_INCAGI,180000,5;
+		// sc_start SC_INCVIT,180000,5;
+		// sc_start SC_INCINT,180000,5;
+		// sc_start SC_INCDEX,180000,5;
+		// sc_start SC_INCLUK,180000,5;
+	if( BaseLevel == 90 ) {
+		getitem 533,100;
+		zeny += 30000;
+		message strcharinfo(0), "You got 30,000z and 100 Grape Juice for reaching level 90.";
+		end;
+	}
+	if( BaseLevel == 91 ) {
+		getitem 533,110;
+		zeny += 30000;
+		message strcharinfo(0), "You got 30,000z and 110 Grape Juice for reaching level 91.";
+		end;
+	}
+	if( BaseLevel == 92 ) {
+		getitem 533,120;
+		zeny += 30000;
+		message strcharinfo(0), "You got 30,000z and 120 Grape Juice for reaching level 92.";
+		end;
+	}
+	if( BaseLevel == 93 ) {
+		getitem 533,130;
+		zeny += 30000;
+		message strcharinfo(0), "You got 30,000z and 130 Grape Juice for reaching level 93.";
+		end;
+	}
+	if( BaseLevel == 94 ) {
+		getitem 533,140;
+		zeny += 30000;
+		message strcharinfo(0), "You got 30,000z and 140 Grape Juice for reaching level 94.";
+		end;
+	}
+	if( BaseLevel == 95 ) {
+		getitem 533,150;
+		zeny += 50000;
+		message strcharinfo(0), "You got 50,000z and 150 Grape Juice for reaching level 95.";
+		end;
+	}
+	if( BaseLevel == 96 ) {
+		getitem 533,160;
+		zeny += 50000;
+		message strcharinfo(0), "You got 50,000z and 160 Grape Juice for reaching level 96.";
+		end;
+	}
+	if( BaseLevel == 97 ) {
+		getitem 533,170;
+		zeny += 50000;
+		message strcharinfo(0), "You got 50,000z and 170 Grape Juice for reaching level 97.";
+		end;
+	}
+	if( BaseLevel == 98 ) {
+		getitem 533,180;
+		zeny += 50000;
+		message strcharinfo(0), "You got 50,000z and 180 Grape Juice for reaching level 98.";
+		end;
+	}
+	if( BaseLevel == 99 ) {
+		getitem 533,300;
+		zeny += 150000;
+		message strcharinfo(0), "You got 150,000z and 300 Grape Juice for reaching level 99.";
+		end;
+	}
+}
+	end;
+}

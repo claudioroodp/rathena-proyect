@@ -1,0 +1,186 @@
+//      ______  __    __                                 
+//     /\  _  \/\ \__/\ \ 
+//     \ \ \_\ \ \ ,_\ \ \___      __    ___      __     
+// _____\ \  __ \ \ \/\ \  _ `\  /'__`\/' _ `\  /'__`\   
+///\  __\\ \ \/\ \ \ \_\ \ \ \ \/\  __//\ \/\ \/\ \_\.\_ 
+//\ \_\_/ \ \_\ \_\ \__\\ \_\ \_\ \____\ \_\ \_\ \__/.\_\
+// \/_/    \/_/\/_/\/__/ \/_/\/_/\/____/\/_/\/_/\/__/\/_/
+//
+//========================================================
+// ---                  Party Warper                   ---
+//========================================================
+// ---                  by DanielArt                   ---
+//========================================================
+payon,176,87,4	script	Party Dungeon Warper::PTY_WARP	469,{
+	// Almacena la party ID.
+	.@PID = getcharid(1);
+	
+	// Almacena la ID del leader
+	.@LP = getpartyleader(.@PID,2);
+
+	if(countitem(717)==0) {
+		mes "[^cc6600 "+strnpcinfo(1)+"^000000]";
+		mes "You need a 1 Blue Gemstone.";
+		close2;
+		emotion ET_SORRY;
+		end;
+	}
+
+	if(!.@PID) {
+		mes "[^cc6600 "+strnpcinfo(1)+"^000000]";
+		mes "I'm sorry, but you must be in a group.";
+		close2;
+		emotion ET_SORRY;
+		end;
+	}
+	
+	if(.@LP != getcharid(0)) {
+		mes "[^cc6600 "+strnpcinfo(1)+"^000000]";
+		mes "Please tell your group leader to talk to me, I have no business with you.";
+		close;
+	}
+	
+	mes "[^cc6600 "+strnpcinfo(1)+"^000000]";
+	mes "Welcome, ^5533ff"+strcharinfo(0)+"^000000";
+	mes "Here I can offer you my services to transport your party to a specific place.";
+	next;
+	switch(select("Destinations:^ff7070Information^000000:^777777Exit^000000")) {
+		case 1:
+			callsub S_Comprobation,.@PID,.z,.member;
+			mes "[^cc6600 "+strnpcinfo(1)+"^000000]";
+			mes "Please select your destination.";
+			next;
+			.@m$ = "^777777Exit^000000:";
+			for(.@i = 0; .@i < getarraysize(.WMap$); .@i++)
+				.@m$ += .WName$[.@i]+":";
+			.@s = select(.@m$) - 2;
+			if(.@s == -1) {
+				mes "[^cc6600 "+strnpcinfo(1)+"^000000]";
+				mes "Come back whenever you like.";
+				close;
+			}
+			callsub S_Comprobation,.@PID,.z,.member;
+			mes "[^cc6600 "+strnpcinfo(1)+"^000000]";
+			mes "Okay, I'll take you to your destination.";
+			close2;
+			if(countitem(717)==0) {
+				mes "[^cc6600 "+strnpcinfo(1)+"^000000]";
+				mes "You need a 1 Blue Gemstone.";
+				close2;
+				emotion ET_SORRY;
+				end;
+			}
+			delitem 717,1;
+			Zeny -= .z;
+			warpparty .WMap$[.@s],.WX[.@s],.WY[.@s],.@PID;
+			end;
+		case 2:
+			mes "[^cc6600 "+strnpcinfo(1)+"^000000]";
+			mes "You can go with your group to any of the destinations that I will give you.";
+			next;
+			mes "[^cc6600 "+strnpcinfo(1)+"^000000]";
+			mes "But to be able to do it you must have "+.member+" active members in your party.";
+			next;
+			mes "[^cc6600 "+strnpcinfo(1)+"^000000]";
+			mes "And everyone must be in the ^ff0000same map^000000 that you.";
+			close;
+		case 3:
+			mes "[^cc6600 "+strnpcinfo(1)+"^000000]";
+			mes "Come back when you want";
+			close;
+	}
+
+// Sub-función de adición de destinos [No tocar]
+S_De:
+	setarray .WName$[getarg(0)],getarg(1);
+	setarray .WMap$[getarg(0)],getarg(2);
+	setarray .WX[getarg(0)],getarg(3);
+	setarray .WY[getarg(0)],getarg(4);
+	return;
+	
+// Sub-función de comprobación de condiciones
+S_Comprobation:
+	.@PID = getarg(0);
+	.@ze = getarg(1);
+	.@me = getarg(2);
+	if(Zeny < .z) {
+		mes "[^cc6600 "+strnpcinfo(1)+"^000000]";
+		mes "You don't have enough Zeny to use this service.";
+		mes "I require ^5533ff"+callfunc("F_InsertComma",.@ze)+"^000000.";
+		close2;
+		emotion ET_SORRY;
+		end;
+	}
+	getpartymember .@PID,0;
+	getpartymember .@PID,1;
+	getpartymember .@PID,2;
+	if($@partymembercount < .@me) {
+		mes "[^cc6600 "+strnpcinfo(1)+"^000000]";
+		mes "You don't have enough members in your group.";
+		close2;
+		emotion ET_SORRY;
+		end;
+	}
+	.@m = .@n = 0;
+	for(.@i = 0; .@i < $@partymembercount; .@i++) {
+		if(isloggedin($@partymemberaid[.@i],$@partymembercid[.@i])) {
+			.@m++;
+			if(strcharinfo(3,getcharid(0)) != strcharinfo(3,$@partymembercid[.@i]))
+				.@n++;
+		}
+	}
+	if(.@n) {
+		mes "[^cc6600 "+strnpcinfo(1)+"^000000]";
+		mes "One of your members is not on the same map as you.";
+		close2;
+		emotion ET_SORRY;
+		end;
+	}
+	if(.@m < .@me) {
+		mes "[^cc6600 "+strnpcinfo(1)+"^000000 ]";
+		mes "Your group does not meet the conditions.";
+		mes "It is required at least ^cc6600"+.@me+"^000000 online members.";
+		mes "There are only ^5533ff"+.@m+" / "+$@partymembercount+"^000000 online members.";
+		close2;
+		emotion ET_SORRY;
+		end;
+	}
+	return;
+
+// Configuración
+OnInit:
+	// Cantidad de miembros requeridos para el warp.
+	.member = 1;
+	
+	// Precio del transporte cobrado al lider.
+	.z = 30000;
+	
+	// Destinos
+	// Formato: callsub S_De,id,"Nombre del mapa",				mapa,		x,		y;
+	callsub S_De,1,	"Bio Lab [ ^FF3300Quest^000000 ]",				"lighthalzen",	310,		302;
+	callsub S_De,2,	"Ice Dungeon 3",								"ice_dun02",	150,	281;
+	callsub S_De,3,	"Abyss Lake [ ^FF3300Quest^000000 ]",			"hu_fild05",	188,	204;
+	callsub S_De,4,	"Thor Volcano 2",				"thor_v02",	143,		223;
+	callsub S_De,5,	"Comodo Field [ ^FF3300Anolians^000000 ]",			"cmd_fild03",	174,	356;
+	callsub S_De,6,	"Glast Heim Dungeon 2 [ ^FF3300Majororus^000000 ]",	"gl_dun02",	224,	266;
+	callsub S_De,7,	"Magma Dungeon 2",							"mag_dun02",	48,		31;
+	callsub S_De,8,	"Odin Temple 2",								"odin_tem02",	237,	153;
+	callsub S_De,9,	"Sphinx 4 [ ^FF3300Anubis^000000 ]",				"in_sphinx4",	10,		220;
+
+	// Mensajes del Chat
+	setarray .chat$,"","Party Warper","Min "+.member+" members","","Req. "+callfunc("F_InsertComma",.z)+"z.","Req. 1 BlueGem";
+	
+	// while(1) {
+		// showscript "Party Warper", getnpcid(0);
+		// sleep 1000;
+	// }
+	while(1) {
+		for($@wtp = 0; $@wtp < getarraysize(.chat$); $@wtp++) {
+			delwaitingroom;
+			waitingroom .chat$[$@wtp],0;
+			sleep 1000;
+		}
+		sleep 50; // Infinity Loop
+	}
+	end;
+}

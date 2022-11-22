@@ -1,0 +1,41 @@
+//
+//
+//LOGIN COMMANDS
+//
+//
+-	script	LoginCommands	-1,{
+
+OnPCLoginEvent:
+	atcommand "@autoloot 100";
+	atcommand "@uptime";
+	if(getgmlevel()>8) {
+		atcommand "@speed 0";
+	}
+	if(!#Translated) {
+		mes "[Translator]";
+		mes "Por favor, escoge tu idioma de preferencia.";
+		mes "------";
+		mes "Please choose your preferred language.";
+		next;
+		menu "Español",L_ES,"English",L_En;
+	L_En:
+		mes "[Translator]";
+		set #Translated, 1;
+		mes "English language configured.";
+		mes "Thank you.";
+		mes "You can still change";
+		mes "the language from the old man";
+		mes "called Language Changer.";
+		close;
+	L_ES:
+		mes "[Traductor]";
+		set #Translated, 2;
+		mes "Idioma español configurado.";
+		mes "Muchas gracias.";
+		mes "Si quieres cambiar de idioma";
+		mes "puedes encontrar al NPC correspondiente";
+		mes "en Prontera.";
+		close;
+	}
+end;
+}

@@ -1,0 +1,489 @@
+/*
+Anunciador de Party.
+Basado en el Trabajo de: ---
+Para Cliente: ClaudiooRod[Facebook]
+
+Funcion mySQL
+CREATE TABLE `party_anuncios` (
+	`char_name` VARCHAR(30) NOT NULL,
+	`char_id` INT(10) UNSIGNED NOT NULL,
+	`party_id` INT(10) UNSIGNED NOT NULL,
+	`guild_id` INT(10) UNSIGNED NOT NULL,
+	`date` DATETIME NOT NULL,
+	`text1` VARCHAR(224) NOT NULL,
+	`text2` VARCHAR(224) NOT NULL
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;
+*/
+
+function	script	Party Search	{
+if (#Translated == 2) {
+	mes "[Organizador de Grupos]";
+	mes "Bienvenido al Sistema de Encuentro de Parties. ¿En que necesitas ayuda?";
+	mes "Recuerda: Puedes modificar tu anuncio seleccionandolo en la ventana de 'Mostrar anuncios'.";
+	next;
+	switch(select("Mostrar Anuncios:Dejar un anuncio:Información:Salir")){
+		case 1: //Mostrar Anuncios
+			set .@b,query_sql("SELECT `char_id`,`char_name`,`text1`,`text2`,`party_id` FROM `party_anuncios` WHERE 1 = 1  ", .@id_chars, .@char_name$, .@text1$, .@text2$, .@party_id);
+			if(!.@b){
+				mes "Organizador de Grupos";
+				mes "No hay anuncios";
+				close;
+			}
+			.@menu$ = "";
+			for(.@i = 0; .@i < getarraysize(.@text1$); .@i++){
+				.@menu$ += .@text1$[.@i]+" - "+.@text2$[.@i];
+				.@menu$ += ":";
+			}
+			.@s = select(.@menu$) - 1;
+			mes "Organizador de Grupos";
+			mes "[ "+.@text1$[.@s]+" ]";
+			mes "^FF0000"+.@char_name$[.@s]+"^000000 Busca miembros para su party";
+			mes "Miembros Actuales";
+			getpartymember .@party_id[.@s],0; //Names -> $@partymembername$[];
+			getpartymember .@party_id[.@s],1; //character id -> $@partymembercid[];
+			getpartymember .@party_id[.@s],2; //account id -> $@partymemberaid[];
+			set .@current_player_id,getcharid(3);
+			for(.@i = 0; .@i < $@partymembercount; .@i++){
+				if ( isloggedin( $@partymemberaid[.@i], $@partymembercid[.@i]) ){
+					attachrid($@partymemberaid[.@i]);
+					set .@char_name$,	strcharinfo(0);
+					set .@bl,		BaseLevel;
+					set .@jl,		JobLevel;
+					set .@jid,		Class;
+					if($@partymemberaid[.@i] == getpartyleader(.@party_id[.@s],1)){
+						set .@leader_account, $@partymemberaid[.@i];
+					}
+					attachrid(.@current_player_id);
+					mes "> ^0000FF"+.@char_name$+"^000000 ^FF0000"+.@bl+"^000000/^FF0000"+.@jl+"^000000 [^0000FF"+jobname(.@jid)+"^000000]";
+				}
+			}
+			attachrid(.@current_player_id);
+			mes "^F2F2F2---^000000";
+			mes "Clases solicitadas:";
+			mes .@text2$[.@s];
+			next;
+			set .@menu$,"Mandar Solicitud:Salir";
+			if(getcharid(1) && (.@id_chars[.@s] == getcharid(0)))
+				set .@menu$,.@menu$+":Configurar";
+			switch(select(.@menu$)){
+				case 2:
+					mes "Organizador de Grupos";
+					mes "Nos vemos luego";
+					break;
+				case 1:
+					mes "Mandado Aviso...";
+					mes "Espera que te contacten";
+					close2;
+					set .@f_name$,strcharinfo(0)+" "+BaseLevel+" / "+JobLevel+" ["+jobname(Class)+"]";
+					attachrid(.@leader_account);
+					announce .@f_name$+" Desea unirse a tu Party. Usa /invite para agregarlo.",bc_blue|bc_self;
+					end;
+				case 3:
+					.@editmode = 1;
+					goto OnEdit2;
+			}
+			break;
+		case 2: //Dejar un anuncio
+
+			mes "Organizador de Grupos";
+			if(!getcharid(1)){
+				mes "Solo miembros de party pueden dejar anuncios.";
+				close;
+			}
+			if(getcharid(0) != getpartyleader(getcharid(1),2)){
+				mes "Solo el leader de Party puede dejar anuncios.";
+				close;
+				
+			}
+			query_sql("SELECT COUNT(`char_id`) FROM `party_anuncios` WHERE `char_id` = "+getcharid(0)+" AND `party_id` = "+getcharid(1)+" ", .@have_party);
+			if(.@have_party){
+				mes "Debes esperar mas tiempo para volver a publicar.";
+				close;
+			}
+OnEdit2:
+			mes "Selecciona un Mapa: ";
+			next;
+			set .@map_menu$, "";
+			for (set .@i, 0; .@i < getarraysize($@SP_map_name$); set .@i, .@i + 1)
+				set .@map_menu$, .@map_menu$ + $@SP_map_name$[.@i] + ":";
+			set .@s, select(.@map_menu$) - 1;
+			set .@titleann$, $@SP_map_name$[.@s];
+			
+			// Ingreso Lvl
+			do{
+				mes .@nombre$;
+				mes "Ingresa level minimo: ";
+				input .@level_minimo;
+				next;
+			}while( !(.@level_minimo > 0 && .@level_minimo < 100)  );
+			set .@titleann$, .@titleann$ + " " +.@level_minimo + "+";
+
+			// Seleccionar Jobs.
+			set .@job_menu$, "";
+			for (set .@i, 0; .@i < getarraysize($@SP_job_name$); set .@i, .@i + 1)
+				set .@job_menu$, .@job_menu$ + $@SP_job_name$[.@i] + ":";
+
+			mes "Selecciona que Jobs buscas:";
+			set .@s, select("Cualquier Job:Seleccionar Job");
+			next;
+			if(.@s == 1){
+				set .@announce$,"Cualquier Job.";
+			}else{ // especificar jobs
+				set .@cantidad_job,0;
+				do{
+					mes .@announce$;
+					set .@s, select(.@job_menu$) - 1;
+					if(.@s == 0) {next; break;}
+					if(.@cantidad_job == 0){
+						set .@announce$, $@SP_job_name$[.@s];
+					}else{
+						set .@announce$, .@announce$ + ", "+ $@SP_job_name$[.@s];
+					}
+					set .@cantidad_job, .@cantidad_job + 1;
+					next;
+				}while(.@cantidad_job < 12);
+			}
+
+			mes .@nombre$;
+			mes "Su anuncio será publicado. No podrá volver a dejar un mensaje sino hasta dentro de 30 minutos.";
+
+			announce "Party a "+.@titleann$+", creada por ["+strcharinfo(0)+"]. Mas información en el NPC Party.",bc_all,0xFE9A2E;
+			
+			query_sql ("SELECT `last_map` FROM `char` WHERE `online` = '1'",.@maps$);
+			for (.@i = 0 ; .@i < getarraysize(.@maps$) ; .@i++) soundeffectall "party_alarm.wav",0,.@maps$[.@i];
+			//soundeffectall "party_alarm.wav",0,0;
+			//npctalk "Party a "+.@titleann$+", mas información en el NPC Party.";
+			close2;
+			set .@columns$,"";	set .@values$,""; 
+			set .@columns$,.@columns$ + "char_name ,";	set .@values$,.@values$ + "'"+strcharinfo(0)+"', "; 
+			set .@columns$,.@columns$ + "char_id, ";	set .@values$,.@values$ + "'"+getcharid(0)+"', "; 
+			set .@columns$,.@columns$ + "party_id, ";	set .@values$,.@values$ + getcharid(1)+", "; 
+			set .@columns$,.@columns$ + "guild_id, ";	set .@values$,.@values$ + getcharid(3)+", "; 
+			set .@columns$,.@columns$ + "date, ";	set .@values$,.@values$ + "+NOW(), "; 
+			set .@columns$,.@columns$ + "text1, ";	set .@values$,.@values$ + "'"+.@titleann$+"', "; 
+			set .@columns$,.@columns$ + "text2";	set .@values$,.@values$ + "'"+.@announce$+"'";
+			if(.@editmode)
+				query_sql("UPDATE `party_anuncios` SET `date` = NOW(), `text1` = '"+.@titleann$+"', `text2` = '"+.@announce$+"' WHERE `char_id` = "+getcharid(0)+" AND party_id = "+getcharid(1)+" ");
+			else
+				query_sql("INSERT INTO `party_anuncios` ("+.@columns$+") VALUES ("+.@values$+")");
+			break;
+		case 3:
+			mes .@nombre$;
+			mes "Aquí podrás buscar y publicar Partys.";
+			mes "Puedes colocar el Mapa, el nivel para el ExpShare y los Jobs que buscas.";
+			mes "O simplemente buscar e ingresar a una.";
+		case 4: //Quitar
+	}
+	end;
+}
+	mes "[Group Organizer]";
+	mes "Welcome to the Party Meeting System. What do you need help with?";
+	mes "Remember: You can modify your ad by selecting it in the 'Show ads' window.";
+	next;
+	switch(select("Show Ads:Place an ad:Information:Leave")){
+		case 1: //Mostrar Anuncios
+			set .@b,query_sql("SELECT `char_id`,`char_name`,`text1`,`text2`,`party_id` FROM `party_anuncios` WHERE 1 = 1  ", .@id_chars, .@char_name$, .@text1$, .@text2$, .@party_id);
+			if(!.@b){
+				mes "[Group Organizer]";
+				mes "No ads.";
+				close;
+			}
+			.@menu$ = "";
+			for(.@i = 0; .@i < getarraysize(.@text1$); .@i++){
+				.@menu$ += .@text1$[.@i]+" - "+.@text2$[.@i];
+				.@menu$ += ":";
+			}
+			.@s = select(.@menu$) - 1;
+			mes "[Group Organizer]";
+			mes "[ "+.@text1$[.@s]+" ]";
+			mes "^FF0000"+.@char_name$[.@s]+"^000000 need members in his party.";
+			mes "Current members";
+			getpartymember .@party_id[.@s],0; //Names -> $@partymembername$[];
+			getpartymember .@party_id[.@s],1; //character id -> $@partymembercid[];
+			getpartymember .@party_id[.@s],2; //account id -> $@partymemberaid[];
+			set .@current_player_id,getcharid(3);
+			for(.@i = 0; .@i < $@partymembercount; .@i++){
+				if ( isloggedin( $@partymemberaid[.@i], $@partymembercid[.@i]) ){
+					attachrid($@partymemberaid[.@i]);
+					set .@char_name$,	strcharinfo(0);
+					set .@bl,		BaseLevel;
+					set .@jl,		JobLevel;
+					set .@jid,		Class;
+					if($@partymemberaid[.@i] == getpartyleader(.@party_id[.@s],1)){
+						set .@leader_account, $@partymemberaid[.@i];
+					}
+					attachrid(.@current_player_id);
+					mes "> ^0000FF"+.@char_name$+"^000000 ^FF0000"+.@bl+"^000000/^FF0000"+.@jl+"^000000 [^0000FF"+jobname(.@jid)+"^000000]";
+				}
+			}
+			attachrid(.@current_player_id);
+			mes "^F2F2F2---^000000";
+			mes "Requested Jobs:";
+			mes .@text2$[.@s];
+			next;
+			set .@menu$,"Send Request:Exit";
+			if(getcharid(1) && (.@id_chars[.@s] == getcharid(0)))
+				set .@menu$,.@menu$+":Configure";
+			switch(select(.@menu$)){
+				case 2:
+					mes "[Group Organizer]";
+					mes "See you later";
+					break;
+				case 1:
+					mes "Sent Global Ads...";
+					mes "Wait for them to contact you";
+					close2;
+					set .@f_name$,strcharinfo(0)+" "+BaseLevel+" / "+JobLevel+" ["+jobname(Class)+"]";
+					attachrid(.@leader_account);
+					announce .@f_name$+" want to join your Party. Use /invite to add it.",bc_blue|bc_self;
+					end;
+				case 3:
+					.@editmode = 1;
+					goto OnEdit;
+			}
+			break;
+		case 2: //Dejar un anuncio
+
+			mes "[Group Organizer]";
+			if(!getcharid(1)){
+				mes "Only party members can leave announcements.";
+				close;
+			}
+			if(getcharid(0) != getpartyleader(getcharid(1),2)){
+				mes "Only the party leader can leave ads.";
+				close;
+				
+			}
+			query_sql("SELECT COUNT(`char_id`) FROM `party_anuncios` WHERE `char_id` = "+getcharid(0)+" AND `party_id` = "+getcharid(1)+" ", .@have_party);
+			if(.@have_party){
+				mes "You must wait more time to publish again.";
+				close;
+			}
+OnEdit:
+			mes "Select a Map: ";
+			next;
+			set .@map_menu$, "";
+			for (set .@i, 0; .@i < getarraysize($@SP_map_name$); set .@i, .@i + 1)
+				set .@map_menu$, .@map_menu$ + $@SP_map_name$[.@i] + ":";
+			set .@s, select(.@map_menu$) - 1;
+			set .@titleann$, $@SP_map_name$[.@s];
+			
+			// Ingreso Lvl
+			do{
+				mes .@nombre$;
+				mes "Enter minimum level: ";
+				input .@level_minimo;
+				next;
+			}while( !(.@level_minimo > 0 && .@level_minimo < 100)  );
+			set .@titleann$, .@titleann$ + " " +.@level_minimo + "+";
+
+			// Seleccionar Jobs.
+			set .@job_menu$, "";
+			for (set .@i, 0; .@i < getarraysize($@SP_job_name$); set .@i, .@i + 1)
+				set .@job_menu$, .@job_menu$ + $@SP_job_name$[.@i] + ":";
+
+			mes "Select Jobs you are looking for:";
+			set .@s, select("Any job:Select Job");
+			next;
+			if(.@s == 1){
+				set .@announce$,"Any job.";
+			}else{ // especificar jobs
+				set .@cantidad_job,0;
+				do{
+					mes .@announce$;
+					set .@s, select(.@job_menu$) - 1;
+					if(.@s == 0) {next; break;}
+					if(.@cantidad_job == 0){
+						set .@announce$, $@SP_job_name$[.@s];
+					}else{
+						set .@announce$, .@announce$ + ", "+ $@SP_job_name$[.@s];
+					}
+					set .@cantidad_job, .@cantidad_job + 1;
+					next;
+				}while(.@cantidad_job < 12);
+			}
+
+			mes .@nombre$;
+			mes "Your ad will be published. You will not be able to leave a message again for another 30 minutes.";
+
+			announce "Party to "+.@titleann$+", created by ["+strcharinfo(0)+"]. Looking members for the party, use @sparty for quick access.",bc_all,0xFE9A2E;
+			
+			query_sql ("SELECT `last_map` FROM `char` WHERE `online` = '1'",.@maps$);
+			for (.@i = 0 ; .@i < getarraysize(.@maps$) ; .@i++) soundeffectall "party_alarm.wav",0,.@maps$[.@i];
+			//soundeffectall "party_alarm.wav",0,0;
+			// npctalk "Party to "+.@titleann$+", created by ["+strcharinfo(0)+"]. Looking members for the party.";
+			close2;
+			set .@columns$,"";	set .@values$,""; 
+			set .@columns$,.@columns$ + "char_name ,";	set .@values$,.@values$ + "'"+strcharinfo(0)+"', "; 
+			set .@columns$,.@columns$ + "char_id, ";	set .@values$,.@values$ + "'"+getcharid(0)+"', "; 
+			set .@columns$,.@columns$ + "party_id, ";	set .@values$,.@values$ + getcharid(1)+", "; 
+			set .@columns$,.@columns$ + "guild_id, ";	set .@values$,.@values$ + getcharid(3)+", "; 
+			set .@columns$,.@columns$ + "date, ";	set .@values$,.@values$ + "+NOW(), "; 
+			set .@columns$,.@columns$ + "text1, ";	set .@values$,.@values$ + "'"+.@titleann$+"', "; 
+			set .@columns$,.@columns$ + "text2";	set .@values$,.@values$ + "'"+.@announce$+"'";
+			if(.@editmode)
+				query_sql("UPDATE `party_anuncios` SET `date` = NOW(), `text1` = '"+.@titleann$+"', `text2` = '"+.@announce$+"' WHERE `char_id` = "+getcharid(0)+" AND party_id = "+getcharid(1)+" ");
+			else
+				query_sql("INSERT INTO `party_anuncios` ("+.@columns$+") VALUES ("+.@values$+")");
+			break;
+		case 3:
+			mes .@nombre$;
+			mes "Here you can search and publish Partys.";
+			mes "You can place the Map, the level for the ExpShare and the Jobs you are looking for.";
+			mes "Or just search and enter one.";
+		case 4: //Quitar
+	}
+	end;
+}
+
+-	script	PCC01	-1,{
+OnInit:
+	setarray $@SP_map_name$[0],"Abyss Lakes Underground Cave",
+				"Amatsu Dungeon",
+				"Amatsu Field",
+				"Ant Hell",
+				"Ayothaya Fild",
+				"Beach Dungeon",
+				"Brasilis Field",
+				// "Brasilis Dungeon",
+				"Clock Tower",
+				"Comodo Fild",
+				// "Cursed Abbey Dungeon",
+				"Einbroch Field",
+        //"El Descates Field",
+				// "Endless Tower",
+				"Geffen Dungeon",
+				"Geffen Fild",
+				"Geffenia",
+				"Glast Heim",
+				"Glast Heim Chivalry",
+				"Glast Heim Churchyard",
+				"Glast Heim Culvert",
+				"Glast Heim St. Abbey",
+				"Glast Heim Staircase Dungeon",
+				"Glast Heim Underprison",
+				"Gonryun Dungeon",
+				"Hugel Field",
+				"Ice Cave",
+				"Inside Pyramid",
+				"Juperos Core",
+				"Labyrinth Forest",
+				"Lighthalzen Biolab",
+				"Lighthalzen Field",
+				"Louyang Dungeon",
+				"Louyang Field",
+				"Lutie Field",
+				"Magma Dungeon",
+				// "Manuk Field",
+				"Mine Dungeon",
+				// "Morocc Field (Dimensional Gorge)",
+				// "Moscovia Fild",
+				// "Moscovia Dungeon",
+        // "Nidhogg Dungeon",
+				"Niflheim Fild",
+				"Odin Temple",
+				"Orc Dungeon",
+				"Orcish Underground Caves Instance",
+				"Payon Cave",
+				"Payon Forest",
+				"Prontera Culvert",
+				"Rachel Dungeon",
+				"Rachel Fild",
+				"Robot Factory",
+				"Sealed Shrine Instance",
+				// "Sograt Desert",
+				"Sphinx",
+				"Splendide Field",
+				"Sunken Ship",
+				"Thanatos Tower - Lower Level",
+				"Thanatos Tower - Upper Level",
+				"The Lowest Cave in Glast Heim",
+				// "The Nameless Island",
+				"Thor Volcano Dungeon",
+				"Toy Factory",
+				"Turtle Island Dungeon",
+				"Umbala Dungeon",
+				"Undersea Tunnel",
+				"Veins Field",
+				"Yuno Field";
+	setarray $@SP_job_name$[0],"End up",
+				"Alchemist",
+				"Assassin",
+				"Assassin Cross",
+				"Bard",
+				"Blacksmith",
+				"Champion",
+				"Clown",
+				"Creator",
+				"Crusader",
+				"Dancer",
+				"Gunslinger",
+				"Gypsy",
+				"High Priest",
+				"High Wizard",
+				"Hunter",
+				"Knight",
+				"Lord Knight",
+				"Monk",
+				"Ninja",
+				"Paladin",
+				"Priest",
+				"Professor",
+				"Rogue",
+				"Sage",
+				"Sniper",
+				"Soul Linker",
+				"Stalker",
+				"Star Gladiator",
+				"Super Novice",
+				"Whitesmith",
+				"Wizard";
+	end;
+OnPCLogoutEvent:
+	query_sql("DELETE FROM `party_anuncios` WHERE `char_id` = "+getcharid(0));
+	end;
+
+}
+
+-	script	TablonComm	-1,{
+OnTablon:
+	callfunc("Party Search");
+	end;
+OnInit:
+	bindatcmd "sparty",strnpcinfo(3) + "::OnTablon";
+	while(1){
+		query_sql("DELETE FROM `party_anuncios` WHERE `party_id` NOT IN(SELECT `party_id` FROM `party` po WHERE `po`.`party_id` = `party_id`)");
+		sleep 3000;
+		query_sql("SELECT COUNT(`party_id`) from `party_anuncios` WHERE 1 = 1", $@_pm_count);
+	}
+	end;
+
+}
+
+prontera,138,96,4	script	Party Post#1	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+morocc,149,86,5	script	Party Post#2	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+geffen,111,63,5	script	Party Post#3	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+payon,169,85,5	script	Party Post#4	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+alberta,22,243,5	script	Party Post#5	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+izlude,119,102,5	script	Party Post#6	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+aldebaran,148,128,5	script	Party Post#7	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+comodo,180,146,5	script	Party Post#8	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+yuno,139,180,5	script	Party Post#9	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+amatsu,122,149,5	script	Party Post#10	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+gonryun,154,126,5	script	Party Post#11	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+umbala,85,153,5	script	Party Post#12	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+louyang,203,102,5	script	Party Post#13	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+ayothaya,145,114,5	script	Party Post#14	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+einbroch,55,198,5	script	Party Post#15	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+einbech,203,125,5	script	Party Post#16	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+hugel,105,151,5	script	Party Post#17	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+rachel,133,100,5	script	Party Post#18	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+lighthalzen,168,88,5	script	Party Post#19	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+veins,211,118,5	script	Party Post#20	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+moscovia,230,184,5	script	Party Post#21	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+//morocc,164,108,5	script	Party Post#22	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+//xmas,157,126,5	script	Party Post#23	857,{	callfunc("Party Search"); end; OnInit: waitingroom "Total Ads: "+$@_pm_count,0; while(1){ sleep 3000; delwaitingroom; waitingroom "Total Ads: "+$@_pm_count,0; } end; }
+

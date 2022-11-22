@@ -1,0 +1,1 @@
+-	script	InitConfig	-1,{OnInit:	setcell "thor_v03",1,1,3,105,cell_walkable,0;	killmonsterall "thor_v03";}
