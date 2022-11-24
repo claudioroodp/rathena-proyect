@@ -143,6 +143,7 @@ moc_prydb1
 moc_ruins
 monk_in
 morocc
+morocc_mem
 morocc_in
 new_1-1
 new_1-2
