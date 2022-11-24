@@ -1,0 +1,110 @@
+[1mdiff --git a/npc/custom/old_days/levelup.txt b/npc/custom/old_days/levelup.txt[m
+[1mnew file mode 100644[m
+[1mindex 0000000..dbc6858[m
+[1m--- /dev/null[m
+[1m+++ b/npc/custom/old_days/levelup.txt[m
+[36m@@ -0,0 +1,90 @@[m
+[32m+[m[32m-	script	LevelUpQuotes	-1,{[m
+[32m+[m[32mOnPCBaseLvUpEvent:[m
+[32m+[m	[32msleep2 100;[m
+[32m+[m	[32mif( BaseLevel >= 1 ) {[m
+[32m+[m		[32mannounce "You just leveled up, congratulations!.",bc_self;[m
+[32m+[m		[32m// dispbottom "Efecto: Attention Concentrate nivel 10.";[m
+[32m+[m		[32m// itemskill "AC_CONCENTRATION",1;[m
+[32m+[m		[32m// sc_end SC_SPEEDUP1;[m
+[32m+[m		[32m// sc_end SC_INCSTR;[m
+[32m+[m		[32m// sc_end SC_INCAGI;[m
+[32m+[m		[32m// sc_end SC_INCVIT;[m
+[32m+[m		[32m// sc_end SC_INCINT;[m
+[32m+[m		[32m// sc_end SC_INCDEX;[m
+[32m+[m		[32m// sc_end SC_INCLUK;[m
+[32m+[m		[32mspecialeffect2 EF_INCAGILITY;[m
+[32m+[m		[32msc_start SC_INCREASEAGI,300000,10;[m
+[32m+[m		[32mspecialeffect2 EF_BLESSING;[m
+[32m+[m		[32msc_start SC_BLESSING,300000,10;[m
+[32m+[m		[32m// dispbottom "+5 AllStats por 3 minutos.";[m[41m [m
+[32m+[m		[32m// dispbottom "Efecto: Speed Potion al 20% por 60 segundos (no acumulable con Agility UP.)";[m
+[32m+[m		[32m// sc_start SC_SPEEDUP1,60000,20;[m
+[32m+[m		[32m// sc_start SC_INCSTR,180000,5;[m
+[32m+[m		[32m// sc_start SC_INCAGI,180000,5;[m
+[32m+[m		[32m// sc_start SC_INCVIT,180000,5;[m
+[32m+[m		[32m// sc_start SC_INCINT,180000,5;[m
+[32m+[m		[32m// sc_start SC_INCDEX,180000,5;[m
+[32m+[m		[32m// sc_start SC_INCLUK,180000,5;[m
+[32m+[m	[32mif( BaseLevel == 90 ) {[m
+[32m+[m		[32mgetitem 533,100;[m
+[32m+[m		[32mzeny += 30000;[m
+[32m+[m		[32mmessage strcharinfo(0), "You got 30,000z and 100 Grape Juice for reaching level 90.";[m
+[32m+[m		[32mend;[m
+[32m+[m	[32m}[m
+[32m+[m	[32mif( BaseLevel == 91 ) {[m
+[32m+[m		[32mgetitem 533,110;[m
+[32m+[m		[32mzeny += 30000;[m
+[32m+[m		[32mmessage strcharinfo(0), "You got 30,000z and 110 Grape Juice for reaching level 91.";[m
+[32m+[m		[32mend;[m
+[32m+[m	[32m}[m
+[32m+[m	[32mif( BaseLevel == 92 ) {[m
+[32m+[m		[32mgetitem 533,120;[m
+[32m+[m		[32mzeny += 30000;[m
+[32m+[m		[32mmessage strcharinfo(0), "You got 30,000z and 120 Grape Juice for reaching level 92.";[m
+[32m+[m		[32mend;[m
+[32m+[m	[32m}[m
+[32m+[m	[32mif( BaseLevel == 93 ) {[m
+[32m+[m		[32mgetitem 533,130;[m
+[32m+[m		[32mzeny += 30000;[m
+[32m+[m		[32mmessage strcharinfo(0), "You got 30,000z and 130 Grape Juice for reaching level 93.";[m
+[32m+[m		[32mend;[m
+[32m+[m	[32m}[m
+[32m+[m	[32mif( BaseLevel == 94 ) {[m
+[32m+[m		[32mgetitem 533,140;[m
+[32m+[m		[32mzeny += 30000;[m
+[32m+[m		[32mmessage strcharinfo(0), "You got 30,000z and 140 Grape Juice for reaching level 94.";[m
+[32m+[m		[32mend;[m
+[32m+[m	[32m}[m
+[32m+[m	[32mif( BaseLevel == 95 ) {[m
+[32m+[m		[32mgetitem 533,150;[m
+[32m+[m		[32mzeny += 50000;[m
+[32m+[m		[32mmessage strcharinfo(0), "You got 50,000z and 150 Grape Juice for reaching level 95.";[m
+[32m+[m		[32mend;[m
+[32m+[m	[32m}[m
+[32m+[m	[32mif( BaseLevel == 96 ) {[m
+[32m+[m		[32mgetitem 533,160;[m
+[32m+[m		[32mzeny += 50000;[m
+[32m+[m		[32mmessage strcharinfo(0), "You got 50,000z and 160 Grape Juice for reaching level 96.";[m
+[32m+[m		[32mend;[m
+[32m+[m	[32m}[m
+[32m+[m	[32mif( BaseLevel == 97 ) {[m
+[32m+[m		[32mgetitem 533,170;[m
+[32m+[m		[32mzeny += 50000;[m
+[32m+[m		[32mmessage strcharinfo(0), "You got 50,000z and 170 Grape Juice for reaching level 97.";[m
+[32m+[m		[32mend;[m
+[32m+[m	[32m}[m
+[32m+[m	[32mif( BaseLevel == 98 ) {[m
+[32m+[m		[32mgetitem 533,180;[m
+[32m+[m		[32mzeny += 50000;[m
+[32m+[m		[32mmessage strcharinfo(0), "You got 50,000z and 180 Grape Juice for reaching level 98.";[m
+[32m+[m		[32mend;[m
+[32m+[m	[32m}[m
+[32m+[m	[32mif( BaseLevel == 99 ) {[m
+[32m+[m		[32mgetitem 533,300;[m
+[32m+[m		[32mzeny += 150000;[m
+[32m+[m		[32mmessage strcharinfo(0), "You got 150,000z and 300 Grape Juice for reaching level 99.";[m
+[32m+[m		[32mend;[m
+[32m+[m	[32m}[m
+[32m+[m[32m}[m
+[32m+[m	[32mend;[m
+[32m+[m[32m}[m
+\ No newline at end of file[m
+[1mdiff --git a/npc/scripts_custom.conf b/npc/scripts_custom.conf[m
+[1mindex 1105da3..368b457 100644[m
+[1m--- a/npc/scripts_custom.conf[m
+[1m+++ b/npc/scripts_custom.conf[m
+[36m@@ -8,7 +8,7 @@[m [mnpc: npc/custom/old_days/logincommands.txt[m
+ npc: npc/custom/old_days/warperparty.txt[m
+ npc: npc/custom/old_days/warper.txt[m
+ npc: npc/custom/old_days/vip.txt[m
+[31m-npc: npc/custom/old_days/arty_anunciador.txt[m
+[32m+[m[32mnpc: npc/custom/old_days/party_anunciador.txt[m
+ [m
+ //EVENTOS[m
+ npc: npc/custom/old_days/global_event/treasure_random.txt[m
