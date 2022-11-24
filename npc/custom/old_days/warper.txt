@@ -134,7 +134,7 @@ OnInit:
 		callsub Onc1,0,"Rachel","rachel",130,110,"rachel";
 		// callsub Onc1,20,"Splendide","splendide",199,146,"splendide";
 		callsub Onc1,0,"Umbala","umbala",122,130,"umbala";
-		callsub Onc1,0,"Veins","veins",216,123,"veins";
+		// callsub Onc1,0,"Veins","veins",216,123,"veins";
 
 	// Dungeons:"
 	callsub Onc0,"Warp to Dungeons.",5000;
@@ -267,7 +267,7 @@ OnInit:
 			// callsub Onc1,100,"Thanatos Tower F3","tha_t03",220,158,"tha_t03";
 			// callsub Onc1,101,"Thanatos Tower F4","tha_t04",59,143,"tha_t04";
 		// callsub Onc2,"Thor Volcano Dungeon";
-			callsub Onc1,102,"Thor Volcano Dungeon","ve_fild03",168,230,"ve_fild03";
+			// callsub Onc1,102,"Thor Volcano Dungeon","ve_fild03",168,230,"ve_fild03";
 			// callsub Onc1,102,"Thor Volcano Dungeon F1","thor_v01",21,228,"thor_v01";
 			// callsub Onc1,103,"Thor Volcano Dungeon F2","thor_v02",75,205,"thor_v02";
 		// callsub Onc2,"Toy Factory";
