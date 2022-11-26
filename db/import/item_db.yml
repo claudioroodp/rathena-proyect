@@ -88,7 +88,7 @@ Header:
   Type: ITEM_DB
   Version: 3
 
-#Body:
+
 # THQ Quest Items
 #=============================================================
 #  - Id: 1998
@@ -545,6 +545,7 @@ Header:
 #    Gender: Female
 #  - Id: 5735
 #    Gender: Female
+Body:
   - Id: 31027
     AegisName: C_Pretty_Bear
     Name: Costume Pretty Bear
