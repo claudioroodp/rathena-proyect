@@ -1,12 +1,13 @@
-prontera,150,180,4	script	Healer	20851,{
+payon,167,98,4	script	Tree of Life	20851,{
 	end;
 OnInit:
-OnTimer3000:
+OnTimer2000:
 	initnpctimer;
 	getmapxy(.@m$,.@x,.@y,BL_NPC);
 	areapercentheal .@m$,.@x-11,.@y-11,.@x+11,.@y+11,0,5;//ONLY SP
 	addrid(4,0,.@x-11,.@y-11,.@x+11,.@y+11);
 	if(Hp==MaxHP) end;
-	npcskill "AL_HEAL",10,1,30;
+	// npcskill "AL_HEAL",2,10,80;//200 por heal
+	npcskill "AL_HEAL",2,10,40;//100 POR HEAL
 	end;
 }

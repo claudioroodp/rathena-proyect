@@ -84,7 +84,7 @@ Body:
     AegisName: OLD_DAYS_TREASURE
     Name: Old Days Tresure
     Level: 99
-    Dex: 999
+    Hp: 1
     Size: Small
     Race: Formless
     RaceGroups:
@@ -107,7 +107,7 @@ Body:
     Name: Hell Tree
     Level: 200
     Hp: 20000
-    Defense: 200
+    Defense: 40
     MagicDefense: 40
     Str: 10
     Agi: 10
