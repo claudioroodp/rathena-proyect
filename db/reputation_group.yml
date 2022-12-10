@@ -16,19 +16,24 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ###########################################################################
-# Reputation Database
+# Reputation Group Database
 ###########################################################################
 #
-# Reputation Settings
+# Reputation Group Settings
 #
 ###########################################################################
-# - Id                                  Client side index.
-#   Name                                Name of the reputation type.
-#   Variable                            Name of the variable that will store the reputation. (Default: RepPoints<id>)
-#   Minimum                             Minimum amount of points. (Default: INT64_MIN)
-#   Maximum                             Maximum amount of points. (Default: INT64_MAX)
+# - Id                                  Client side group index.
+#   ScriptName                          Unused? Used for "ID" in client
+#   Name                                Visible name in window
+#   ReputeList                          List of Reputations
 ###########################################################################
 
 Header:
-  Type: REPUTATION_DB
+  Type: REPUTATION_GROUP_DB
   Version: 1
+
+Footer:
+  Imports:
+    - Path: db/re/reputation_group.yml
+      Mode: Renewal
+    - Path: db/import/reputation_group.yml
