@@ -160,12 +160,12 @@ OnInit:
 	callsub S_De,1,	"Bio Lab [ ^FF3300Quest^000000 ]",				"lighthalzen",	310,		302;
 	callsub S_De,2,	"Ice Dungeon 3",								"ice_dun02",	150,	281;
 	callsub S_De,3,	"Abyss Lake [ ^FF3300Quest^000000 ]",			"hu_fild05",	188,	204;
-	callsub S_De,4,	"Thor Volcano 2",				"thor_v02",	143,		223;
-	callsub S_De,5,	"Comodo Field [ ^FF3300Anolians^000000 ]",			"cmd_fild03",	174,	356;
-	callsub S_De,6,	"Glast Heim Dungeon 2 [ ^FF3300Majororus^000000 ]",	"gl_dun02",	224,	266;
-	callsub S_De,7,	"Magma Dungeon 2",							"mag_dun02",	48,		31;
-	callsub S_De,8,	"Odin Temple 2",								"odin_tem02",	237,	153;
-	callsub S_De,9,	"Sphinx 4 [ ^FF3300Anubis^000000 ]",				"in_sphinx4",	10,		220;
+	// callsub S_De,4,	"Thor Volcano 2",				"thor_v02",	143,		223;
+	callsub S_De,4,	"Comodo Field [ ^FF3300Anolians^000000 ]",			"cmd_fild03",	174,	356;
+	callsub S_De,5,	"Glast Heim Dungeon 2 [ ^FF3300Majororus^000000 ]",	"gl_dun02",	224,	266;
+	callsub S_De,6,	"Magma Dungeon 2",							"mag_dun02",	48,		31;
+	callsub S_De,7,	"Odin Temple 2",								"odin_tem02",	237,	153;
+	callsub S_De,8,	"Sphinx 4 [ ^FF3300Marduk^000000 ]",				"in_sphinx4",	10,		220;
 
 	// Mensajes del Chat
 	setarray .chat$,"","Party Warper","Min "+.member+" members","","Req. "+callfunc("F_InsertComma",.z)+"z.","Req. 1 BlueGem";

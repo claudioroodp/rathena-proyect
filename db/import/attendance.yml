@@ -32,3 +32,61 @@
 Header:
   Type: ATTENDANCE_DB
   Version: 1
+
+Body:
+ - Start: 20220811
+   End: 2022031
+   Rewards:
+     - Day: 1
+       ItemId: 601
+     - Day: 2
+       ItemId: 601
+     - Day: 3
+       ItemId: 601
+       Amount: 5
+     - Day: 4
+       ItemId: 601
+       Amount: 5
+     - Day: 5
+       ItemId: 601
+     - Day: 6
+       ItemId: 601
+     - Day: 7
+       ItemId: 601
+       Amount: 3
+     - Day: 8
+       ItemId: 601
+       Amount: 5
+     - Day: 9
+       ItemId: 601
+       Amount: 5
+     - Day: 10
+       ItemId: 601
+     - Day: 11
+       ItemId: 601
+       Amount: 2
+     - Day: 12
+       ItemId: 601
+       Amount: 3
+     - Day: 13
+       ItemId: 601
+       Amount: 5
+     - Day: 14
+       ItemId: 601
+       Amount: 5
+     - Day: 15
+       ItemId: 601
+       Amount: 5
+     - Day: 16
+       ItemId: 601
+       Amount: 5
+     - Day: 17
+       ItemId: 601
+       Amount: 5
+     - Day: 18
+       ItemId: 601
+       Amount: 5
+     - Day: 19
+       ItemId: 601
+     - Day: 20
+       ItemId: 601

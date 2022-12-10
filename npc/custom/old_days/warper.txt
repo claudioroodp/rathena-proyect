@@ -1,7 +1,7 @@
 
 //
 // [========================================================]
-// [===========         Warper Evolution         ===========]
+// [===========         Cool Warper Staff         ===========]
 // [========================================================]
 // [ Versión 23d                                            ]
 // [========================================================]
@@ -60,7 +60,7 @@ OnInit:
 // [ Configuración:                                         ]
 // [========================================================]
 
-	.@n$ = "Warper Evolution";	// Nombre del NPC.
+	.@n$ = "Cool Warper Staff";	// Nombre del NPC.
 	$@WEm = 2;			// Modo Evolution. (0 = off | 1 = Player | 2 = Account | 3 = Global)
 	.@p = 0;			// Guardar Punto de Inicio. (-1 = off | Precio)
 
@@ -69,7 +69,7 @@ OnInit:
 // [========================================================]
 
 	.@a = 1;
-	while(!setnpcdisplay("Warper Evolution#"+.@a,.@n$+"#"+.@a)) set .@a,.@a + 1;
+	while(!setnpcdisplay("Cool Warper Staff#"+.@a,.@n$+"#"+.@a)) set .@a,.@a + 1;
 	$@WE$ = "^008888"+.@n$+"^000000";
 	if($@WEm == 2) $@WEm$ = "#";
 	if($@WEm == 3) $@WEm$ = "$";
@@ -106,7 +106,9 @@ OnInit:
 	// callsub Onc2;
 			 
 	// Cities:
-	callsub Onc0,"Warp to City.",4000;
+	callsub Onc0,"Payon Main City.",0;
+	callsub Onc1,0,"Payon Main City","payon",173,108,"payon";
+/*
 		callsub Onc1,0,"Payon Main City","payon",173,108,"payon";
 		callsub Onc1,0,"Alberta","alberta",29,235,"alberta";
 		callsub Onc1,0,"Al De Baran","aldebaran",140,117,"aldebaran";
@@ -135,7 +137,7 @@ OnInit:
 		// callsub Onc1,20,"Splendide","splendide",199,146,"splendide";
 		callsub Onc1,0,"Umbala","umbala",122,130,"umbala";
 		// callsub Onc1,0,"Veins","veins",216,123,"veins";
-
+*/
 	// Dungeons:"
 	callsub Onc0,"Warp to Dungeons.",5000;
 		// callsub Onc2,"Abyss Lake Underground Cave";
@@ -402,7 +404,7 @@ OnPCLoadMapEvent:
 }
 
 // Npcs:
--	script	Warper Evolution#0::WE	-1,{
+-	script	Cool Warper Staff#0::WE	-1,{
 
 	mes $@WE$;
 	mes "Hi, "+strcharinfo(0)+".";
@@ -609,87 +611,87 @@ Ona0:
 	return;
 }
 
-alberta,31,240,4	duplicate(WE)	Warper Evolution#1	667
-// alberta,52,247,5	duplicate(WE)	Warper Evolution#2	667
-aldebaran,133,117,6	duplicate(WE)	Warper Evolution#3	667
-//aldebaran,133,240,6	duplicate(WE)	Warper Evolution#4	667
-alde_gld,234,154,4	duplicate(WE)	Warper Evolution#5	667
-// amatsu,244,283,6	duplicate(WE)	Warper Evolution#6	667
-// amatsu,91,258,4	duplicate(WE)	Warper Evolution#7	667
-amatsu,203,81,4	duplicate(WE)	Warper Evolution#8	667
-// ayothaya,203,208,3	duplicate(WE)	Warper Evolution#9	667
-// ayothaya,157,82,4	duplicate(WE)	Warper Evolution#9b	667
-ayothaya,154,121,4	duplicate(WE)	Warper Evolution#9c	667
-brasilis,199,222,3	duplicate(WE)	Warper Evolution#10	667
-//comodo,180,333,4	duplicate(WE)	Warper Evolution#11	667
-comodo,198,161,4	duplicate(WE)	Warper Evolution#12	667
-//comodo,320,179,4	duplicate(WE)	Warper Evolution#13	667
-//comodo,32,219,6	duplicate(WE)	Warper Evolution#14	667
-einbech,67,96,6	duplicate(WE)	Warper Evolution#15	667
-//einbech,131,249,6	duplicate(WE)	Warper Evolution#16	667
-//einbech,38,201,8	duplicate(WE)	Warper Evolution#17	667
-einbroch,69,203,3	duplicate(WE)	Warper Evolution#18	667
-//einbroch,153,317,6	duplicate(WE)	Warper Evolution#19	667
-//einbroch,152,53,4	duplicate(WE)	Warper Evolution#20	667
-//einbroch,245,239,2	duplicate(WE)	Warper Evolution#21	667
-geffen,123,67,4	duplicate(WE)	Warper Evolution#22	667
-//geffen,41,111,6	duplicate(WE)	Warper Evolution#23	667
-//geffen,124,181,4	duplicate(WE)	Warper Evolution#24	667
-//geffen,167,123,6	duplicate(WE)	Warper Evolution#25	667
-gef_fild13,191,248,4	duplicate(WE)	Warper Evolution#26	667		//castillo woe
-gonryun,163,114,3	duplicate(WE)	Warper Evolution#27	667
-//gonryun,172,182,2	duplicate(WE)	Warper Evolution#28	667
-//gonryun,157,18,6	duplicate(WE)	Warper Evolution#29	667
-hugel,101,150,4	duplicate(WE)	Warper Evolution#30	667
-//hugel,176,174,4	duplicate(WE)	Warper Evolution#31	667
-izlude,122,112,6	duplicate(WE)	Warper Evolution#32	667
-// jawaii,212,235,3	duplicate(WE)	Warper Evolution#33	667
-yuno,142,187,6	duplicate(WE)	Warper Evolution#34	667
-// yuno,64,207,4	duplicate(WE)	Warper Evolution#35	667
-sch_gld,291,127,4	duplicate(WE)	Warper Evolution#36	667
-// lighthalzen,209,99,6	duplicate(WE)	Warper Evolution#37	667
-// lighthalzen,218,326,4	duplicate(WE)	Warper Evolution#38	667
-lighthalzen,164,94,4	duplicate(WE)	Warper Evolution#37a	667
-// lighthalzen,311,303,4	duplicate(WE)	Warper Evolution#39	667
-louyang,207,104,6	duplicate(WE)	Warper Evolution#40	667
-// louyang,57,250,4	duplicate(WE)	Warper Evolution#41	667
-// xmas,139,310,6	duplicate(WE)	Warper Evolution#42	667
-xmas,153,133,4	duplicate(WE)	Warper Evolution#83	667
-// xmas,157,110,4	duplicate(WE)	Warper Evolution#43	667
-morocc,160,97,4	duplicate(WE)	Warper Evolution#44	667
-// morocc,43,174,4	duplicate(WE)	Warper Evolution#45	667
-// morocc,166,293,4	duplicate(WE)	Warper Evolution#46	667
-// morocc,275,197,8	duplicate(WE)	Warper Evolution#47	667
-// morocc,33,294,4	duplicate(WE)	Warper Evolution#48	667
-moscovia,219,191,4	duplicate(WE)	Warper Evolution#49	667
-// moscovia,157,64,4	duplicate(WE)	Warper Evolution#50	667
-// niflheim,25,156,6	duplicate(WE)	Warper Evolution#51	667
-niflheim,201,184,4	duplicate(WE)	Warper Evolution#52	667
-// payon,213,76,6	duplicate(WE)	Warper Evolution#53	667
-// payon,164,49,2	duplicate(WE)	Warper Evolution#54	667
-payon,181,108,4	duplicate(WE)	Warper Evolution#82	667
-// payon,232,320,4	duplicate(WE)	Warper Evolution#55	667
-// payon,63,124,6	duplicate(WE)	Warper Evolution#56	667
-pay_gld,201,161,4	duplicate(WE)	Warper Evolution#57	667
-//prontera,159,184,4	duplicate(WE)	Warper Evolution#58	667
-prontera,146,85,4	duplicate(WE)	Warper Evolution#59	667
-prt_gld,166,79,4	duplicate(WE)	Warper Evolution#63	667
-// rachel,260,136,4	duplicate(WE)	Warper Evolution#64	667
-// rachel,150,140,4	duplicate(WE)	Warper Evolution#65	667
-// rachel,135,49,4	duplicate(WE)	Warper Evolution#81	667
-rachel,124,106,6	duplicate(WE)	Warper Evolution#66	667
-// rachel,35,131,6	duplicate(WE)	Warper Evolution#67	667
-aru_gld,179,330,6	duplicate(WE)	Warper Evolution#68	667
-umbala,117,134,4	duplicate(WE)	Warper Evolution#69	667
-// umbala,163,253,4	duplicate(WE)	Warper Evolution#70	667
-veins,223,128,4	duplicate(WE)	Warper Evolution#71	667
-// veins,222,356,4	duplicate(WE)	Warper Evolution#72	667
-// veins,210,118,4	duplicate(WE)	Warper Evolution#80	667
-// veins,153,62,6	duplicate(WE)	Warper Evolution#73	667
-mid_camp,224,237,4	duplicate(WE)	Warper Evolution#74	667
-// mid_camp,134,233,6	duplicate(WE)	Warper Evolution#75	667
-// mid_camp,256,230,8	duplicate(WE)	Warper Evolution#76	667
-manuk,285,128,3	duplicate(WE)	Warper Evolution#77	667
-// manuk,183,181,6	duplicate(WE)	Warper Evolution#78	667
-splendide,200,153,6	duplicate(WE)	Warper Evolution#79	667
-// Mercado,106,12,4	duplicate(WE)	Warper Evolution#90	667
+alberta,31,240,4	duplicate(WE)	Cool Warper Staff#1	874
+// alberta,52,247,5	duplicate(WE)	Cool Warper Staff#2	874
+aldebaran,133,117,6	duplicate(WE)	Cool Warper Staff#3	874
+//aldebaran,133,240,6	duplicate(WE)	Cool Warper Staff#4	874
+alde_gld,234,154,4	duplicate(WE)	Cool Warper Staff#5	874
+// amatsu,244,283,6	duplicate(WE)	Cool Warper Staff#6	874
+// amatsu,91,258,4	duplicate(WE)	Cool Warper Staff#7	874
+amatsu,203,81,4	duplicate(WE)	Cool Warper Staff#8	874
+// ayothaya,203,208,3	duplicate(WE)	Cool Warper Staff#9	874
+// ayothaya,157,82,4	duplicate(WE)	Cool Warper Staff#9b	874
+ayothaya,154,121,4	duplicate(WE)	Cool Warper Staff#9c	874
+brasilis,199,222,3	duplicate(WE)	Cool Warper Staff#10	874
+//comodo,180,333,4	duplicate(WE)	Cool Warper Staff#11	874
+comodo,198,161,4	duplicate(WE)	Cool Warper Staff#12	874
+//comodo,320,179,4	duplicate(WE)	Cool Warper Staff#13	874
+//comodo,32,219,6	duplicate(WE)	Cool Warper Staff#14	874
+einbech,67,96,6	duplicate(WE)	Cool Warper Staff#15	874
+//einbech,131,249,6	duplicate(WE)	Cool Warper Staff#16	874
+//einbech,38,201,8	duplicate(WE)	Cool Warper Staff#17	874
+einbroch,69,203,3	duplicate(WE)	Cool Warper Staff#18	874
+//einbroch,153,317,6	duplicate(WE)	Cool Warper Staff#19	874
+//einbroch,152,53,4	duplicate(WE)	Cool Warper Staff#20	874
+//einbroch,245,239,2	duplicate(WE)	Cool Warper Staff#21	874
+geffen,123,67,4	duplicate(WE)	Cool Warper Staff#22	874
+//geffen,41,111,6	duplicate(WE)	Cool Warper Staff#23	874
+//geffen,124,181,4	duplicate(WE)	Cool Warper Staff#24	874
+//geffen,167,123,6	duplicate(WE)	Cool Warper Staff#25	874
+gef_fild13,191,248,4	duplicate(WE)	Cool Warper Staff#26	874		//castillo woe
+gonryun,163,114,3	duplicate(WE)	Cool Warper Staff#27	874
+//gonryun,172,182,2	duplicate(WE)	Cool Warper Staff#28	874
+//gonryun,157,18,6	duplicate(WE)	Cool Warper Staff#29	874
+hugel,101,150,4	duplicate(WE)	Cool Warper Staff#30	874
+//hugel,176,174,4	duplicate(WE)	Cool Warper Staff#31	874
+izlude,122,112,6	duplicate(WE)	Cool Warper Staff#32	874
+// jawaii,212,235,3	duplicate(WE)	Cool Warper Staff#33	874
+yuno,142,187,6	duplicate(WE)	Cool Warper Staff#34	874
+// yuno,64,207,4	duplicate(WE)	Cool Warper Staff#35	874
+sch_gld,291,127,4	duplicate(WE)	Cool Warper Staff#36	874
+// lighthalzen,209,99,6	duplicate(WE)	Cool Warper Staff#37	874
+// lighthalzen,218,326,4	duplicate(WE)	Cool Warper Staff#38	874
+lighthalzen,164,94,4	duplicate(WE)	Cool Warper Staff#37a	874
+// lighthalzen,311,303,4	duplicate(WE)	Cool Warper Staff#39	874
+louyang,207,104,6	duplicate(WE)	Cool Warper Staff#40	874
+// louyang,57,250,4	duplicate(WE)	Cool Warper Staff#41	874
+// xmas,139,310,6	duplicate(WE)	Cool Warper Staff#42	874
+xmas,153,133,4	duplicate(WE)	Cool Warper Staff#83	874
+// xmas,157,110,4	duplicate(WE)	Cool Warper Staff#43	874
+morocc,160,97,4	duplicate(WE)	Cool Warper Staff#44	874
+// morocc,43,174,4	duplicate(WE)	Cool Warper Staff#45	874
+// morocc,166,293,4	duplicate(WE)	Cool Warper Staff#46	874
+// morocc,275,197,8	duplicate(WE)	Cool Warper Staff#47	874
+// morocc,33,294,4	duplicate(WE)	Cool Warper Staff#48	874
+moscovia,219,191,4	duplicate(WE)	Cool Warper Staff#49	874
+// moscovia,157,64,4	duplicate(WE)	Cool Warper Staff#50	874
+// niflheim,25,156,6	duplicate(WE)	Cool Warper Staff#51	874
+niflheim,201,184,4	duplicate(WE)	Cool Warper Staff#52	874
+// payon,213,76,6	duplicate(WE)	Cool Warper Staff#53	874
+// payon,164,49,2	duplicate(WE)	Cool Warper Staff#54	874
+payon,181,108,4	duplicate(WE)	Cool Warper Staff#82	874
+// payon,232,320,4	duplicate(WE)	Cool Warper Staff#55	874
+// payon,63,124,6	duplicate(WE)	Cool Warper Staff#56	874
+pay_gld,201,161,4	duplicate(WE)	Cool Warper Staff#57	874
+//prontera,159,184,4	duplicate(WE)	Cool Warper Staff#58	874
+prontera,146,85,4	duplicate(WE)	Cool Warper Staff#59	874
+prt_gld,166,79,4	duplicate(WE)	Cool Warper Staff#63	874
+// rachel,260,136,4	duplicate(WE)	Cool Warper Staff#64	874
+// rachel,150,140,4	duplicate(WE)	Cool Warper Staff#65	874
+// rachel,135,49,4	duplicate(WE)	Cool Warper Staff#81	874
+rachel,124,106,6	duplicate(WE)	Cool Warper Staff#66	874
+// rachel,35,131,6	duplicate(WE)	Cool Warper Staff#67	874
+aru_gld,179,330,6	duplicate(WE)	Cool Warper Staff#68	874
+umbala,117,134,4	duplicate(WE)	Cool Warper Staff#69	874
+// umbala,163,253,4	duplicate(WE)	Cool Warper Staff#70	874
+veins,223,128,4	duplicate(WE)	Cool Warper Staff#71	874
+// veins,222,356,4	duplicate(WE)	Cool Warper Staff#72	874
+// veins,210,118,4	duplicate(WE)	Cool Warper Staff#80	874
+// veins,153,62,6	duplicate(WE)	Cool Warper Staff#73	874
+mid_camp,224,237,4	duplicate(WE)	Cool Warper Staff#74	874
+// mid_camp,134,233,6	duplicate(WE)	Cool Warper Staff#75	874
+// mid_camp,256,230,8	duplicate(WE)	Cool Warper Staff#76	874
+manuk,285,128,3	duplicate(WE)	Cool Warper Staff#77	874
+// manuk,183,181,6	duplicate(WE)	Cool Warper Staff#78	874
+splendide,200,153,6	duplicate(WE)	Cool Warper Staff#79	874
+// Mercado,106,12,4	duplicate(WE)	Cool Warper Staff#90	874
