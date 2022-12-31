@@ -34,8 +34,8 @@ Header:
   Version: 1
 
 Body:
- - Start: 20220811
-   End: 2022031
+ - Start: 20221229
+   End: 20230122
    Rewards:
      - Day: 1
        ItemId: 601
